@@ -1,12 +1,24 @@
 module.exports = function(controller) {
   controller.hears(
-    message => message.intent === 'greetings',
+    message =>
+      message.intent === 'greetings' ||
+      Object.keys(message.entities).some(entity => entity === 'greetings'),
     'message',
     async (bot, message) => {
-      bot.reply(
+      await bot.reply(
         message,
         "Hello there my fellow Genosse! Welcome to Resplice, the world's best contact management application"
       )
+    }
+  )
+
+  controller.hears(
+    message =>
+      message.intent === 'thanks' ||
+      Object.keys(message.entities).some(entity => entity === 'thanks'),
+    'message',
+    async (bot, message) => {
+      await bot.reply(message, 'You are very welcome!')
     }
   )
 
@@ -38,7 +50,7 @@ module.exports = function(controller) {
     message => message.intent === 'help',
     'message',
     async (bot, message) => {
-      bot.reply(message, {
+      await bot.reply(message, {
         text: 'Sure, I can help you out.\nWhat would you like to do?',
         quick_replies: [
           {

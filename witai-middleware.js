@@ -24,7 +24,9 @@ module.exports = function(config) {
   middleware.ingest = async function(bot, message, next) {
     if (message.text) {
       try {
+        // Pass the user's message to wit for classification
         const data = await wit.message(message.text)
+
         // Add wit entities to message
         message.entities = data.entities
 
